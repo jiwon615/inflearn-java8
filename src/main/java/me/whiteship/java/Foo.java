@@ -8,6 +8,8 @@ public class Foo {
         Plus10 plus = new Plus10();
         System.out.println("plus10 = " + plus.apply(1));
 
+        // 함수형 인터페이스
+
         Function<Integer, Integer> plus10 = (i) -> i + 10; // Function -> UnaryOperator 타입으로 변경 가능
         Function<Integer, Integer> multiply2 = (i) -> i * 2;
 
