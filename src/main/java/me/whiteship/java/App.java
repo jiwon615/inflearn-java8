@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class App {
 
@@ -71,5 +72,27 @@ public class App {
         name.removeIf(m -> m.startsWith("l"));
         name.forEach(System.out::println);
         System.out.println("");
+
+        /**
+         * Stream
+         */
+        List<String> streamEx = new ArrayList<>();
+        streamEx.add("lina");
+        streamEx.add("erica");
+        streamEx.add("jiwon");
+        streamEx.add("yuki");
+
+        // 중계 Operator 예시 (ex. stream())
+        Stream<String> stringStream = streamEx.stream().map(m -> {
+            System.out.println("m = " + m);
+            return m.toUpperCase();
+        });
+
+        // 종료 Operator 예시 (ex. collect())
+        List<String> collect = streamEx.stream().map(s -> {
+            System.out.println("s = " + s);
+            return s.toUpperCase();
+        }).collect(Collectors.toList());
+        collect.forEach(System.out::println);
     }
 }
