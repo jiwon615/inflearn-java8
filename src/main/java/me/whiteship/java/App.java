@@ -1,7 +1,9 @@
 package me.whiteship.java;
 
+import me.whiteship.java.optional.Progress;
 import me.whiteship.java.stream.OnlineClass;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -98,7 +100,9 @@ public class App {
 //        }).collect(Collectors.toList());
 //        collect.forEach(System.out::println);
 
-
+        /**
+         * Stream API 각종 예시
+         */
         List<OnlineClass> springClasses = new ArrayList<>();
         springClasses.add(new OnlineClass(1, "spring boot", true));
         springClasses.add(new OnlineClass(2, "spring data jpa", true));
@@ -160,6 +164,48 @@ public class App {
                 .collect(Collectors.toList());
         result2.forEach(System.out::println);
 
+        /**
+         * Optional
+         */
+        System.out.println("==Optional 예시==");
+        List<OnlineClass> optionalClasses = new ArrayList<>();
+        optionalClasses.add(new OnlineClass(1, "spring boot", true));
+        optionalClasses.add(new OnlineClass(5, "rest api development", true));
 
+        Optional<OnlineClass> optional = optionalClasses.stream()
+                .filter(m -> m.getTitle().startsWith("spring"))
+                .findFirst();
+
+        System.out.println(optional.isPresent());
+        optional.ifPresent(onlineClass -> System.out.println(onlineClass.getTitle()));
+
+        OnlineClass orElseResult = optional.orElse(createNewClass());  // 있으면 반환 및 createNewClass(), 없으면 createNewClass()
+        System.out.println("orElseResult = " + orElseResult.getTitle());
+
+        OnlineClass orElseGetResult = optional.orElseGet(App::createNewClass);  //있으면 반환 없으면 createNewClass()
+        System.out.println("orElseGetResult = " + orElseGetResult.getTitle());
+
+        OnlineClass orElseThrowResult = optional.orElseThrow();  // 있으면 반환 없으면 NoSuchElementException()
+        OnlineClass orElseThrowResult2 = optional.orElseThrow(IllegalStateException::new);
+        System.out.println("orElseThrowResult = " + orElseThrowResult.getTitle());
+        System.out.println("orElseThrowResult2 = " + orElseThrowResult2.getTitle());
+
+        Optional<OnlineClass> optionalFilter = optional.filter(Predicate.not(OnlineClass::isClosed));
+        System.out.println(optionalFilter.isEmpty());
+
+        Optional<Integer> optionalMap = optional.map(OnlineClass::getId);
+        System.out.println(optionalMap.isPresent());
+
+        // 가져오려믄 타입이 Optional -> Optional<Optional<Progress>> 이런식으로 나와 복잡해짐
+        Optional<Optional<Progress>> badOptionalType = optional.map(OnlineClass::getProgress);
+        Optional<Progress> badOptionalTypeR = badOptionalType.orElse(Optional.empty());
+
+        // 위 방법에 대한 개선 방법 (flatMap 사용 !)
+        Optional<Progress> goodOptionalType = optional.flatMap(OnlineClass::getProgress);
+    }
+
+    private static OnlineClass createNewClass() {
+        System.out.println("creating new online class");
+        return new OnlineClass(10, "New class", false);
     }
 }

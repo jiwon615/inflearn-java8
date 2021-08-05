@@ -1,9 +1,15 @@
 package me.whiteship.java.stream;
 
+import me.whiteship.java.optional.Progress;
+
+import java.util.Optional;
+
 public class OnlineClass {
     private Integer id;
     private String title;
     private boolean closed;
+
+    public Progress progress;
 
     public OnlineClass(Integer id, String title, boolean closed) {
         this.id = id;
@@ -21,5 +27,9 @@ public class OnlineClass {
 
     public boolean isClosed() {
         return closed;
+    }
+
+    public Optional<Progress> getProgress() {
+        return Optional.ofNullable(progress);
     }
 }
