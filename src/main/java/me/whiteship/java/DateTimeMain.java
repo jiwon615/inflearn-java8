@@ -21,7 +21,7 @@ public class DateTimeMain {
         ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul")); // 특정 존의 날짜 시간
         System.out.println(nowInKorea);
 
-        // 기간을 표현하는 방법
+        // 기간을 표현하는 방법 (email 변경)
 
     }
 }
